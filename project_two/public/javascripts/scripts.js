@@ -19,6 +19,7 @@ window.addEventListener('load', function(){
 
 	var formButton = document.getElementById('thebutton')
 	formButton.addEventListener('click', function(e){
+
 		// dropdown categories
 
 		var name = document.querySelector('#name').value;
@@ -26,12 +27,31 @@ window.addEventListener('load', function(){
 		var age = document.querySelector('#age').value;
 		var phone = document.querySelector('#phone').value;
 		var picture = document.querySelector('#picture').value;
+		var catid = $("select option:selected").val();
 
 		var newLi = document.createElement('li');
-		newLi.innerHTML('<h1>' + name  + address + age + phone + picture);
+		newLi.innerHTML = '<h1>' + name + '</h1>' + '<p><span>' + address + '</p></span>' + '<p><span>' + age + '</p></span>' + '<p><span>' + phone + '</p></span>' + '<img src="' + picture + '">';
 
-		var list = document.querySelector('ul#my-items');
+		if (catid == 1){
+			var list = document.querySelector('.friends')
+		}
+		else if (catid == 2){
+			var list = document.querySelector('.frenemies')
+		}
+		else if (catid == 3){
+			var list = document.querySelector('.enemies')
+		}
+		
 		list.appendChild(newLi);
+
+		document.querySelector('#name').value = ''
+		document.querySelector('#address').value = '';
+		document.querySelector('#age').value = '';
+		document.querySelector('#phone').value = '';
+		document.querySelector('#picture').value = '';
+		
+
+
 	
 
 		var xhr = new XMLHttpRequest();
@@ -42,10 +62,11 @@ window.addEventListener('load', function(){
 			address: address,
 			age: age,
 			phone_number: phone,
-			picture: picture
+			picture: picture,
+			category_id: catid
 		}));
 
-		debugger;
+		// debugger;
 	});
 
 
@@ -140,7 +161,8 @@ function handleCategory(cat) {
 			// });
 		}); //end of foreach
 		
-		var div = document.createElement("div");
+		var div = document.createElement("div")
+		div.setAttribute('class',category.name);
 		var title = document.createElement("label");
 		title.innerText = category.name
 		div.appendChild(title);
