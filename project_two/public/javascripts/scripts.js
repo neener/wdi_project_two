@@ -16,6 +16,40 @@ window.addEventListener('load', function(){
 	});
 	
 	xhr.send();
+
+	var formButton = document.getElementById('thebutton')
+	formButton.addEventListener('click', function(e){
+		// dropdown categories
+
+		var name = document.querySelector('#name').value;
+		var address = document.querySelector('#address').value;
+		var age = document.querySelector('#age').value;
+		var phone = document.querySelector('#phone').value;
+		var picture = document.querySelector('#picture').value;
+
+		var newLi = document.createElement('li');
+		newLi.innerHTML('<h1>' + name  + address + age + phone + picture);
+
+		var list = document.querySelector('ul#my-items');
+		list.appendChild(newLi);
+	
+
+		var xhr = new XMLHttpRequest();
+		xhr.open("POST", '/contacts', true);
+		xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+		xhr.send(JSON.stringify({
+			name: name,
+			address: address,
+			age: age,
+			phone_number: phone,
+			picture: picture
+		}));
+
+		debugger;
+	});
+
+
+
 });
 
 function handleCategory(cat) {
@@ -47,16 +81,6 @@ function handleCategory(cat) {
 			var contactHeader = document.createElement("h1");
 			contactHeader.innerText = contact.name;	
 			contactSection.appendChild(contactHeader);
-
-			// var emailPara = document.createElement("p");
-			// var emailSpan = document.createElement("span");
-			// emailSpan.innerText = "Email: ";
-			// var emailLink = document.createElement("a");
-			// emailLink.href = "mailto:" + contact.email;
-			// emailLink.innerText = contact.email;
-			// emailPara.appendChild(emailSpan);
-			// emailPara.appendChild(emailLink);
-			// contactSection.appendChild(emailPara);
 			
 			var agePara = document.createElement("p");
 			var ageSpan = document.createElement("span");
@@ -82,51 +106,31 @@ function handleCategory(cat) {
 			digitsPara.appendChild(digits);
 			contactSection.appendChild(digitsPara);
 
-			contactLi.appendChild(contactSection);
-			contactsDropdown.appendChild(contactLi);
 			var removeButton = document.createElement('button'); 
 			removeButton.appendChild(document.createTextNode("remove"));
+			contactSection.appendChild(removeButton)
+
 			removeButton.addEventListener('click', function(e){
 				var thisbutton = e.target;
 				var parentLi = thisbutton.parentNode;
 				var grandParentUl = parentLi.parentNode;
 				grandParentUl.removeChild(parentLi);
 				
-				request.open('DELETE', 
-				'http://127.0.0.1:4567/categories/' + contactID, 
+				var req = new XMLHttpRequest;
+				req.open('DELETE', 
+				'http://127.0.0.1:4567/contacts/' + contactID, 
 				true
 				);
+				req.send()
 				//right here you make an ajax call
 				//to delete this contact with contact id of contactID
 				//using route /contacts/ + contactID
 
 
-
 			}); //end of remove add event listener
 
-			var formButton = document.querySelector('myform');
-			myform.addEventListener('click', function(e){
-				var name = document.querySelector('name');
-	  			var address = document.querySelector('address');
-	  			var age = document.querySelector('age');
-	  			var phone = document.querySelector('phone');
-	  			var picture = document.querySelector('picture');
-
-	  			var newLi = document.createElement('LI');
-	  			var list = document.querySelector('li');
-
-	  			list.appendChild(newLi);
-
-	  			var response = new XMLHttpRequest();
-	  			response.open("POST", '/contacts', true);
-	  			response.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-	  			response.send(JSON.stringify({name: name,
-	  				address: address,
-	  				age: age,
-	  				phone: phone,
-	  				picture: picture
-	  			}));
-			});
+			contactLi.appendChild(contactSection);
+			contactsDropdown.appendChild(contactLi);
 
 
 			//contactListInQuestion.parentNode.insertBefore(contactsDropdown, contactListInQuestion.nextSibling); 
