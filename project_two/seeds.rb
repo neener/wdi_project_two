@@ -32,3 +32,9 @@ Contact.create({name: "Neel", category_id: 2,
 	picture: "http://www.centralfloridaheartcare.com/images/g-dr-neel-patel.png"
 })
 
+Contact.create({name: "Jim", category_id: 3,
+	age:27,
+	address:"flatiron usa",
+	phone_number: "5556968764",
+	picture: "http://upload.wikimedia.org/wikipedia/commons/7/7f/Jim_Morrison_1969.JPG"
+})

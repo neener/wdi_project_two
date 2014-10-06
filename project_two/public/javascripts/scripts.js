@@ -18,9 +18,8 @@ window.addEventListener('load', function(){
 	xhr.send();
 });
 
-function handleCategory(category) {
-	var name = category["name"];
-	var categoryId = category["id"]; 
+function handleCategory(cat) {
+	var categoryId = cat["id"]; 
 
 	var request = new XMLHttpRequest;
 	request.open('GET', 
@@ -35,8 +34,9 @@ function handleCategory(category) {
 
 		var contactsDropdown = document.createElement("ul");
 
-		for (var i = 0; i < contacts.length; i++) {
-			var contact = contacts[i]; 
+		contacts.forEach(function(contact) {
+			console.log(category.name)
+			var contactID = contact.id;
 			var contactLi = document.createElement("li");
 			var contactSection = document.createElement("section");
 
@@ -84,9 +84,30 @@ function handleCategory(category) {
 
 			contactLi.appendChild(contactSection);
 			contactsDropdown.appendChild(contactLi);
-		} // for loop
+			var removeButton = document.createElement('button');
+			removeButton.appendChild(document.createTextNode("remove"));
+			removeButton.addEventListener('click', function(e){
+				var thisbutton = e.target;
+				var parentLi = thisbutton.parentNode;
+				var grandParentUl = parentLi.parentNode;
+				grandParentUl.removeChild(parentLi);
+				//right here you make an ajax call
+				//to delete this contact with contact id of contactID
+				//using route /contacts/ + contactID
 
 
+
+			}); //end of remove add event listener
+			//  i want to remove each contact by selecting the contact id and deleting it
+
+
+			//contactListInQuestion.parentNode.insertBefore(contactsDropdown, contactListInQuestion.nextSibling); 
+			//button.removeEventlistener('click');
+			// e.target.addEventListener('click', function(e){ 
+			//  //do stuff to hide the list here });
+			// });
+		}); //end of foreach
+		
 		var div = document.createElement("div");
 		var title = document.createElement("label");
 		title.innerText = category.name
@@ -94,17 +115,9 @@ function handleCategory(category) {
 		div.appendChild(contactsDropdown);
 		document.body.appendChild(div);
 
-		
-		//contactListInQuestion.parentNode.insertBefore(contactsDropdown, contactListInQuestion.nextSibling); 
-		//button.removeEventlistener('click');
-		// e.target.addEventListener('click', function(e){ 
-		//  //do stuff to hide the list here });
-		// });
-	});
-		
-	console.log("got to here")
+	}); //end of request.addeventlistener load
 	request.send();
-}
+} //end of function handlecategory
 
 
 
