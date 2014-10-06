@@ -84,13 +84,18 @@ function handleCategory(cat) {
 
 			contactLi.appendChild(contactSection);
 			contactsDropdown.appendChild(contactLi);
-			var removeButton = document.createElement('button');
+			var removeButton = document.createElement('button'); 
 			removeButton.appendChild(document.createTextNode("remove"));
 			removeButton.addEventListener('click', function(e){
 				var thisbutton = e.target;
 				var parentLi = thisbutton.parentNode;
 				var grandParentUl = parentLi.parentNode;
 				grandParentUl.removeChild(parentLi);
+				
+				request.open('DELETE', 
+				'http://127.0.0.1:4567/categories/' + contactID, 
+				true
+				);
 				//right here you make an ajax call
 				//to delete this contact with contact id of contactID
 				//using route /contacts/ + contactID
@@ -98,7 +103,30 @@ function handleCategory(cat) {
 
 
 			}); //end of remove add event listener
-			//  i want to remove each contact by selecting the contact id and deleting it
+
+			var formButton = document.querySelector('myform');
+			myform.addEventListener('click', function(e){
+				var name = document.querySelector('name');
+	  			var address = document.querySelector('address');
+	  			var age = document.querySelector('age');
+	  			var phone = document.querySelector('phone');
+	  			var picture = document.querySelector('picture');
+
+	  			var newLi = document.createElement('LI');
+	  			var list = document.querySelector('li');
+
+	  			list.appendChild(newLi);
+
+	  			var response = new XMLHttpRequest();
+	  			response.open("POST", '/contacts', true);
+	  			response.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+	  			response.send(JSON.stringify({name: name,
+	  				address: address,
+	  				age: age,
+	  				phone: phone,
+	  				picture: picture
+	  			}));
+			});
 
 
 			//contactListInQuestion.parentNode.insertBefore(contactsDropdown, contactListInQuestion.nextSibling); 
