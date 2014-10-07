@@ -49,7 +49,8 @@ window.addEventListener('load', function(){
 		document.querySelector('#age').value = '';
 		document.querySelector('#phone').value = '';
 		document.querySelector('#picture').value = '';
-		
+		var cat = $("select option:selected");
+		cat[0].selected=false;
 
 
 	
